@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Some basic hygiene meta-data -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eval / Apply is pure magic</title>
+<!-- <base href="https://adityaathalye.github.io/shite-demo/./">  -->
+<meta name="author" content="Aditya Athalye">
+<meta name="description" content="Evaling and Applying forever.">
+<meta name="keywords" content="systems thinking,functional programming,architecture,software design,technology leadership,devops,clojure">
+        <link rel="stylesheet preload" type="text/css" href="https://adityaathalye.github.io/shite-demo/static/css/style.css" />
+<link href="https://adityaathalye.github.io/shite-demo/index.xml"
+      rel="alternate" type="application/rss+xml"
+      title="Eval / Apply is pure magic" />
+        <link rel="canonical" href="https://adityaathalye.github.io/shite-demo/posts/reader-app-pandoc-bash/index.html">
+    </head>
+    <body >
+      <div id="the-very-top" class="stack center box">
+          <header id="site-header">
+  <div class="box invert stack">
+    <div class="with-sidebar site-header">
+      <a class="box icon" href="https://adityaathalye.github.io/shite-demo/index.html#main">
+        <img src="https://adityaathalye.github.io/shite-demo/static/img/Lisp_logo.svg" alt="Eval / Apply is pure magic" />
+      </a>
+      <div class="stack">
+        <div class="site-header">Eval / Apply is pure magic</div>
+        <nav class="cluster site-header site-header:nav-items">
+           <a href="https://adityaathalye.github.io/shite-demo/posts/hello-world/index.html#main">how it began</a>
+           <a href="https://adityaathalye.github.io/shite-demo/index.html#blog-index-list">how it's going</a>
+           <a href="https://github.com/adityaathalye"
+              target="_blank" rel="noreferrer noopener">
+              who did this?
+           </a>
+           <!-- <a href="https://adityaathalye.github.io/shite-demo/about.html#main">is he unhireable?</a> -->
+           <a href="#site-footer">contact? feed? newsletter?</a>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+          <main id="main">
+            <article id="blog-post" class="stack">
+  <header>
+    <div class="stack">
+      <div class="title">Poor man's Reader App with Pandoc & Bash</div>
+      <div class="cluster post-meta"><span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+        </div>
+      <div class="summary">Every so often, I want to avoid opening a website in a browser, for ... reasons.</div>
+      <div class="cluster post-meta">
+        <span class="author">By: Adi</span>
+        <span class="date">Published: 2022-02-10</span>
+        <span class="date">Updated: 2022-09-27</span>
+        <span class="tags">Tags:  / <a href="https://adityaathalye.github.io/shite-demo/tags/functional_programming/index.html#main">#functional_programming</a> / <a href="https://adityaathalye.github.io/shite-demo/tags/bash/index.html#main">#bash</a> / <a href="https://adityaathalye.github.io/shite-demo/tags/unix/index.html#main">#unix</a> / <a href="https://adityaathalye.github.io/shite-demo/tags/random/index.html#main">#random</a>
+        </span>
+      </div>
+      <hr>
+    </div>
+  </header>
+  <section class="stack">
+      <p><em>Throwback, June 27, 2020.</em></p>
+<p>Every so often, I want to avoid opening a website in a browser, for … reasons.</p>
+<p>Curl alone presents too much html. I want to try and read stuff.</p>
+<p>Today, I was playing with Igor Chubin's <strong>awesome</strong> terminal services (wttr.in, cht.sh etc.), and it hit me:</p>
+<p>"WAIT, there's pandoc, what if I just … "</p>
+<p>—</p>
+<p>… … … and an hour later… a terrible idea manifested itself.</p>
+<pre class="shell"><code>www_to_md() {
+    pandoc --wrap=none -f html -t markdown &quot;${1}&quot;
+}
+
+drop_noise() {
+    # remove pesky divs
+    grep -v -E &quot;(&lt;div|&lt;/div).*[&gt;]?|*.&gt;&quot; |
+        # squeeze multiple blank lines into one
+        cat -s
+}
+
+cache_site() {
+    local sitecache=&quot;${1:?&#39;Fail. Path to create cache.&#39;}&quot;
+    local mdfilename=&quot;${2:-&#39;this.md&#39;}&quot;
+    local evict_cache_qmark=&quot;${3:-no}&quot;
+
+    mkdir -p &quot;${sitecache}&quot;
+
+    if [[ -f &quot;${sitecache}/${mdfilename}&quot; &amp;&amp; &quot;${evict_cache_qmark}&quot; == &quot;no&quot; ]]
+    then tee
+    else tee &quot;${sitecache}/${mdfilename}&quot;
+    fi
+}
+
+panwww() {
+    local siteurl=&quot;${1}&quot;
+    local evict_cache_qmark=&quot;${2:-no}&quot;
+    local sitename=&quot;${siteurl/http*:\/\//www.}&quot;
+    local sitecache=&quot;/tmp/panwwwcache/${sitename}&quot;
+    local mdfilename=&quot;this.md&quot;
+
+    if [[ -f &quot;${sitecache}/${mdfilename}&quot; &amp;&amp; &quot;${evict_cache_qmark}&quot; == &quot;no&quot; ]]
+    then local cmd=&quot;cat ${sitecache}/${mdfilename}&quot;
+    else local cmd=&quot;www_to_md ${siteurl}&quot;
+    fi
+
+    $cmd | drop_noise | cache_site &quot;${sitecache}&quot; &quot;${mdfilename}&quot; &quot;${evict_cache_qmark}&quot;
+}
+</code></pre>
+<p>so that …</p>
+<pre class="shell"><code>panwww &quot;https://www.recurse.com/&quot; | less # fetches site the first time
+panwww &quot;https://www.recurse.com/&quot; | less # looks up &quot;cache&quot;
+panwww &quot;https://www.recurse.com/&quot; &quot;refetch&quot; | less
+</code></pre>
+  </section>
+  <footer class="footer">
+    <nav class="cluster">
+      <span>&uarr; <a href="#blog-post" rel="bookmark">title</a></span>
+      <span>&uarr; <a href="#site-header" rel="bookmark">menu</a></span>
+    </nav>
+  </footer>
+</article>
+          </main>
+          <footer id="site-footer">
+<hr>
+<div class="box invert footer stack">
+  <p> Write to <em>weblog (at) evalapply (dot) org</em>. Made with
+      <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>,
+      <a href="https://orgmode.org/">org-mode</a>, and
+      <a href="https://github.com/adityaathalye/shite">shite</a>.
+  </p>
+  <hr>
+  <div class="cluster">
+    <span>
+      <a class="site-feed"
+         href="https://adityaathalye.github.io/shite-demo/index.xml">
+         Get fed
+      </a>.
+    </span>
+  <form class="cluster"
+        action="https://buttondown.email/api/emails/embed-subscribe/evalapply"
+        method="post" target="popupwindow"
+        onsubmit="window.open('https://buttondown.email/evalapply','popupwindow')">
+      <input type="email" name="email" id="bd-email">
+    <span>
+      <input type="submit" value="Get occasional newsletter">
+      <em>(thanks, <a href="https://buttondown.email" target="_blank">Buttondown</a>!)</em>
+    </span>
+  </form>
+  </div>
+  <hr>
+  <p>&copy; copyright 2022, <a href="https://evalapply.org" target="_blank">Aditya Athalye</a>.
+    <span>Except where otherwise noted, content on this site is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    Creative Commons Attribution-ShareAlike 4.0 International License
+    </a>, the same one used by Wikipedia.</span>
+<span><a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+    <img alt="Creative Commons License" style="border-width:0"
+         src="https://i.creativecommons.org/l/by-sa/4.0/80x15.png" />
+    </a></span>
+  </p>
+  <hr>
+  <p>
+  <script async defer src="https://www.recurse-scout.com/loader.js?t=40533398b8c93bb4f3323a170e032e91"></script>
+  </p>
+</div>
+</footer>
+      </div>
+    </body>
+</html>

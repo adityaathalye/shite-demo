@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://adityaathalye.github.io/shite-demo/sitemap.xml

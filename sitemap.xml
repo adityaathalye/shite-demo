@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://adityaathalye.github.io/shite-demo/</loc>
+    <lastmod>2022-09-27T16:09:59+05:30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <loc>https://adityaathalye.github.io/shite-demo/posts/which-clojure-codebases-to-read-how-and-why/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/shell-aint-a-bad-place-to-fp-part-2-functions-as-unix-tools/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/why-and-how-i-use-org-mode/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/n-ways-to-fizzbuzz-in-clojure/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/shell-aint-a-bad-place-to-fp-part-1-doug-mcilroys-pipeline/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/shite-the-static-sites-from-shell-part-1/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/dismal-arithmetic-dyalog-apl-clojure/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/shell-aint-a-bad-place-to-fp-part-0-intro/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/what-makes-functional-programming-systems-functional/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/dont-hurry-dont-stop-sad-version/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/people-culture-values-strategy-technology/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/reader-app-pandoc-bash/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/how-to-give-a-conference-talk/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/software-debt/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/how-to-not-die-by-a-thousand-cuts/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/systems-scale-value/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+<loc>https://adityaathalye.github.io/shite-demo/posts/hello-world/</loc>
+<changefreq>yearly</changefreq>
+<priority>0.8</priority>
+</urlset>
